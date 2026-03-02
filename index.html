@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aldersgate College, Inc. | Creating a Brighter Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --dark-green: #0d3b2e;
+      --mid-green: #1a5c40;
+      --light-green: #2a7d56;
+      --gold: #c9a227;
+      --gold-light: #e8bf52;
+      --gold-pale: #f5e6b0;
+      --cream: #fdf8ee;
+      --white: #ffffff;
+      --text-dark: #1a1a1a;
+      --text-muted: #555;
+      --shadow: rgba(0,0,0,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--dark-green);
+      border-bottom: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 70px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .nav-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-title span:first-child {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-title span:last-child {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: all 0.25s;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      background: rgba(201,162,39,0.2);
+      color: var(--gold-light);
+    }
+
+    .nav-cta {
+      background: var(--gold) !important;
+      color: var(--dark-green) !important;
+      border-radius: 6px !important;
+      font-weight: 700 !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-light) !important;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom right, rgba(13,59,46,0.92), rgba(26,92,64,0.85)),
+        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 40px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,162,39,0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.9s ease 0.1s both;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto 36px;
+      animation: fadeInUp 0.9s ease 0.2s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.9s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark-green);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(201,162,39,0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(201,162,39,0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold-light);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      animation: fadeInUp 0.9s ease 0.4s both;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ===== ANNOUNCEMENTS TICKER ===== */
+    .ticker-wrap {
+      background: var(--gold);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .ticker {
+      display: flex;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker span {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dark-green);
+      padding: 0 40px;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker span::before {
+      content: '🦁 ';
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 80px 40px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--dark-green);
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(to right, var(--gold), var(--gold-light));
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    /* ===== ABOUT ===== */
+    .about {
+      background: var(--white);
+    }
+
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 16px;
+      font-size: 0.97rem;
+    }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .about-feature {
+      background: var(--cream);
+      border-left: 4px solid var(--gold);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .about-feature h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--dark-green);
+      margin-bottom: 4px;
+    }
+
+    .about-feature p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-card-main {
+      background: var(--dark-green);
+      border-radius: 16px;
+      padding: 40px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card-main::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(201,162,39,0.3), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .about-card-main .big-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .about-card-main p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+
+    .about-card-main h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    /* ===== PROGRAMS ===== */
+    .programs {
+      background: var(--cream);
+    }
+
+    .programs-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .programs-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .programs-header .section-divider {
+      margin: 0 auto 24px;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .program-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 28px 24px;
+      border: 1px solid rgba(201,162,39,0.2);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .program-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(to right, var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .program-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(13,59,46,0.12);
+      border-color: var(--gold);
+    }
+
+    .program-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .program-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .program-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--dark-green);
+      margin-bottom: 8px;
+    }
+
+    .program-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .program-link {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    /* ===== NEWS ===== */
+    .news {
+      background: var(--white);
+    }
+
+    .news-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .news-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .news-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: all 0.3s;
+    }
+
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+    }
+
+    .news-card-img {
+      height: 200px;
+      background: linear-gradient(135deg, var(--dark-green), var(--mid-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .news-card-img.small {
+      height: 130px;
+    }
+
+    .news-card-body {
+      padding: 20px;
+    }
+
+    .news-tag {
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .news-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--dark-green);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .news-card-body p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .news-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    /* ===== CONTACT STRIP ===== */
+    .contact-strip {
+      background: var(--dark-green);
+      padding: 60px 40px;
+    }
+
+    .contact-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .contact-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+    }
+
+    .contact-strip h2 span { color: var(--gold-light); }
+
+    .contact-strip p {
+      color: rgba(255,255,255,0.65);
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+
+    .contact-info {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-item span:first-child {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .contact-item span:last-child {
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #071f18;
+      padding: 50px 40px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      margin-top: 12px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 8px;
+    }
+
+    .footer-col a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.83rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ===== CHAT BUBBLE ===== */
+    #chat-launcher {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+    }
+
+    #chat-bubble-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--dark-green);
+      border: 3px solid var(--gold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 30px rgba(13,59,46,0.5), 0 0 0 0 rgba(201,162,39,0.4);
+      animation: pulse-ring 2.5s ease-in-out infinite;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #chat-bubble-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 40px rgba(13,59,46,0.6), 0 0 0 0 rgba(201,162,39,0.4);
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 6px 30px rgba(13,59,46,0.5), 0 0 0 0 rgba(201,162,39,0.4); }
+      50% { box-shadow: 0 6px 30px rgba(13,59,46,0.5), 0 0 0 14px rgba(201,162,39,0); }
+      100% { box-shadow: 0 6px 30px rgba(13,59,46,0.5), 0 0 0 0 rgba(201,162,39,0); }
+    }
+
+    /* Lion SVG inside bubble */
+    .lion-svg {
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+
+    /* Lion tail wag */
+    .lion-tail {
+      transform-origin: 85% 70%;
+      animation: tail-wag 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes tail-wag {
+      from { transform: rotate(-15deg); }
+      to { transform: rotate(15deg); }
+    }
+
+    /* Lion eyes blink */
+    .lion-eye {
+      animation: blink 4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    /* Lion ear twitch */
+    .lion-ear-left {
+      transform-origin: 30% 30%;
+      animation: ear-twitch 3s ease-in-out infinite;
+    }
+
+    @keyframes ear-twitch {
+      0%, 80%, 100% { transform: rotate(0); }
+      85% { transform: rotate(-8deg); }
+      90% { transform: rotate(5deg); }
+    }
+
+    /* Greeting bubble */
+    #greeting-bubble {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      background: var(--white);
+      border: 2px solid var(--gold);
+      border-radius: 16px 16px 4px 16px;
+      padding: 14px 18px;
+      width: 240px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      transform-origin: bottom right;
+    }
+
+    #greeting-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px; right: 20px;
+      border: 5px solid transparent;
+      border-top-color: var(--gold);
+    }
+
+    #greeting-bubble p {
+      font-size: 0.85rem;
+      color: var(--dark-green);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    #greeting-bubble .greeting-name {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    #greeting-bubble .close-greeting {
+      position: absolute;
+      top: 6px; right: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+      font-weight: 700;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===== CHAT WINDOW ===== */
+    #chat-window {
+      position: fixed;
+      bottom: 110px;
+      right: 28px;
+      z-index: 9998;
+      width: 360px;
+      max-height: 520px;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 16px 60px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(201,162,39,0.3);
+      transform: scale(0.8) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+      transform-origin: bottom right;
+    }
+
+    #chat-window.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .chat-header {
+      background: var(--dark-green);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      background: rgba(201,162,39,0.15);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h4 {
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .chat-header-info span {
+      font-size: 0.72rem;
+      color: var(--gold-light);
+    }
+
+    .chat-close {
+      margin-left: auto;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: rgba(255,255,255,0.7);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .chat-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 300px;
+      max-height: 340px;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 2px; }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      animation: msgIn 0.3s ease;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.bot { align-self: flex-start; }
+    .msg.user { align-self: flex-end; }
+
+    .msg-bubble {
+      padding: 10px 15px;
+      border-radius: 18px;
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+
+    .msg.bot .msg-bubble {
+      background: var(--cream);
+      color: var(--text-dark);
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(201,162,39,0.2);
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--dark-green);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-time {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .msg.user .msg-time { align-self: flex-end; }
+
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 12px 16px;
+      background: var(--cream);
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+      border: 1px solid rgba(201,162,39,0.2);
+    }
+
+    .typing-dot {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: typing 1.2s ease-in-out infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    .chat-input-area {
+      padding: 14px 16px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      gap: 10px;
+    }
+
+    #chat-input {
+      flex: 1;
+      border: 1.5px solid rgba(201,162,39,0.3);
+      border-radius: 24px;
+      padding: 10px 18px;
+      font-size: 0.875rem;
+      font-family: 'Nunito', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      color: var(--text-dark);
+      background: var(--cream);
+    }
+
+    #chat-input:focus {
+      border-color: var(--gold);
+    }
+
+    #chat-send {
+      width: 42px;
+      height: 42px;
+      background: var(--dark-green);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    #chat-send:hover {
+      background: var(--mid-green);
+      transform: scale(1.05);
+    }
+
+    #chat-send svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--gold-light);
+    }
+
+    /* ===== KEYFRAMES ===== */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 60px 24px; }
+      .about-inner { grid-template-columns: 1fr; }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .contact-strip-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      #chat-window { width: calc(100vw - 40px); right: 20px; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav>
+  <a href="#" class="nav-brand">
+    <!-- Aldersgate Shield Logo -->
+    <svg class="nav-logo-svg" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 2L4 10V28C4 39.5 12.5 49 24 53C35.5 49 44 39.5 44 28V10L24 2Z" fill="#1a5c40" stroke="#c9a227" stroke-width="2"/>
+      <path d="M24 8L9 14.5V27C9 35.8 15.5 43.5 24 47C32.5 43.5 39 35.8 39 27V14.5L24 8Z" fill="#0d3b2e"/>
+      <!-- Lion silhouette on shield -->
+      <text x="14" y="34" font-size="18" fill="#c9a227">🦁</text>
+      <!-- "ACI" text -->
+      <text x="9" y="44" font-size="7" fill="#e8bf52" font-family="serif" font-weight="bold">A C I</text>
+    </svg>
+    <div class="nav-title">
+      <span>Aldersgate College</span>
+      <span>Solano, Nueva Vizcaya</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="nav-cta">Enroll Now</a></li>
+  </ul>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Est. 1965 · Solano, Nueva Vizcaya, Philippines</div>
+    <h1>Creating a <span>Brighter Future</span><br/>for Every Alder</h1>
+    <p>Educate individuals to think and act as ethical leaders who are spiritually awakened, morally upright, and responsible citizens in the global community.</p>
+    <div class="hero-buttons">
+      <a href="#programs" class="btn-primary">Explore Programs</a>
+      <a href="#about" class="btn-outline">Learn More</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">61</span>
+        <span class="stat-label">Years of Service</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">20+</span>
+        <span class="stat-label">Programs Offered</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">CHED</span>
+        <span class="stat-label">Accredited</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">IAU</span>
+        <span class="stat-label">Recognized</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TICKER ====== -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>Alder the Lion — ACI's newest mascot representing strength, courage & leadership!</span>
+    <span>61st Founding Anniversary Celebration — January 23, 2026 at Aurora Farm</span>
+    <span>Now accepting enrollees for 2025–2026 — Visit our admissions office today!</span>
+    <span>MOA signed with Department of Agriculture – PhilFIDA for community programs</span>
+    <span>Alder the Lion — ACI's newest mascot representing strength, courage & leadership!</span>
+    <span>61st Founding Anniversary Celebration — January 23, 2026 at Aurora Farm</span>
+    <span>Now accepting enrollees for 2025–2026 — Visit our admissions office today!</span>
+    <span>MOA signed with Department of Agriculture – PhilFIDA for community programs</span>
+  </div>
+</div>
+
+<!-- ====== ABOUT ====== -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <div class="section-label">About Aldersgate College</div>
+      <h2 class="section-title">Transforming Lives<br/>Since 1965</h2>
+      <div class="section-divider"></div>
+      <p>Aldersgate College, Inc. was founded to develop the power of reason, to liberate people from ignorance, penury, and hopelessness — empowering them to commence their own journey for social and economic transformation and spiritual salvation.</p>
+      <p>Rooted in the United Methodist tradition and driven by a vision of global excellence, ACI offers affordable, flexible, and collaborative educational programs using systems that comply with international standards of quality, professional licensure, and practice.</p>
+      <div class="about-features">
+        <div class="about-feature">
+          <h4>Academic Excellence</h4>
+          <p>Ranked nationally and recognized by the International Association of Universities</p>
+        </div>
+        <div class="about-feature">
+          <h4>Spiritual Nurture</h4>
+          <p>Methodist values forming morally upright and spiritually awakened graduates</p>
+        </div>
+        <div class="about-feature">
+          <h4>Social Relevance</h4>
+          <p>Community extension programs reaching beyond the campus walls</p>
+        </div>
+        <div class="about-feature">
+          <h4>Global Reach</h4>
+          <p>Career pathways through a network of transnational institutions & guilds</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="about-card-main">
+        <span class="big-year">1965</span>
+        <h3>A Legacy of Transformation</h3>
+        <p>From a small Junior College in Solano, Nueva Vizcaya to a nationally recognized institution — Aldersgate College has spent six decades shaping ethical leaders, compassionate servants, and global citizens.</p>
+        <p style="margin-top:12px;color:var(--gold-light);font-weight:600;">Burgos St., Brgy. Quirino, Solano, Nueva Vizcaya 3709</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PROGRAMS ====== -->
+<section class="programs" id="programs">
+  <div class="programs-inner">
+    <div class="programs-header">
+      <div class="section-label">Academic Programs</div>
+      <h2 class="section-title">Colleges & Departments</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="programs-grid">
+      <div class="program-card">
+        <div class="program-icon">📚</div>
+        <h3>CASEIT</h3>
+        <p>Arts, Science, Education & IT — including BSIT, AB English, BEED, BSED, and more.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">💼</div>
+        <h3>CBMA</h3>
+        <p>Business, Management & Accountancy — BSA, BSBA (Marketing, Finance), BSHM, BSTM.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">⚙️</div>
+        <h3>Engineering & Technology</h3>
+        <p>BSCE and BSEE programs preparing world-class engineers and innovators.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">✝️</div>
+        <h3>Theology & Ministry</h3>
+        <p>AB Church Management and related programs for servant leaders in ministry.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">🎓</div>
+        <h3>Graduate School</h3>
+        <p>MAEd, MBA, MPA, Master in Divinity, DBA, and EdD programs for advanced learners.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">🌱</div>
+        <h3>Basic Education</h3>
+        <p>ACI's Science High School and Laboratory schools for holistic secondary education.</p>
+        <a href="#" class="program-link">View Programs →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== NEWS ====== -->
+<section class="news" id="news">
+  <div class="news-inner">
+    <div class="news-header">
+      <div>
+        <div class="section-label">News & Events</div>
+        <h2 class="section-title">Latest from ACI</h2>
+        <div class="section-divider"></div>
+      </div>
+      <a href="#" class="btn-primary" style="font-size:0.82rem;padding:10px 22px;">View All News</a>
+    </div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-card-img" style="background:linear-gradient(135deg,#0d3b2e,#1a5c40);font-size:5rem;text-align:center;padding-top:40px;">🦁</div>
+        <div class="news-card-body">
+          <div class="news-tag">Announcement</div>
+          <h3>Introducing Alder the Lion — ACI's Official Mascot!</h3>
+          <p>ACI proudly unveiled its newest family member during the 61st Founding Anniversary. Alder represents strength, courage, and leadership — the values every Aldersgarian carries.</p>
+          <div class="news-date">January 23, 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img small" style="font-size:2.5rem;">🤝</div>
+        <div class="news-card-body">
+          <div class="news-tag">Partnership</div>
+          <h3>MOA with DA-PhilFIDA signed for fiber development</h3>
+          <div class="news-date">February 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img small" style="font-size:2.5rem;">🎉</div>
+        <div class="news-card-body">
+          <div class="news-tag">Celebration</div>
+          <h3>61st Anniversary: Service Beyond Walls at Aurora Farm</h3>
+          <div class="news-date">January 23, 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT STRIP ====== -->
+<div class="contact-strip" id="contact">
+  <div class="contact-strip-inner">
+    <div>
+      <h2>Get in <span>Touch</span> with ACI</h2>
+      <p>We're here to help you start your journey to a brighter future.</p>
+    </div>
+    <div class="contact-info">
+      <div class="contact-item">
+        <span>Registrar</span>
+        <span>+63 078 326-8009</span>
+      </div>
+      <div class="contact-item">
+        <span>Treasurer</span>
+        <span>+63 078 326-5085</span>
+      </div>
+      <div class="contact-item">
+        <span>Address</span>
+        <span>Burgos St., Solano, NV</span>
+      </div>
+    </div>
+    <a href="mailto:info@aldersgate.edu.ph" class="btn-primary">Send Message</a>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-title">
+          <span style="font-family:Playfair Display,serif;font-size:1.1rem;color:var(--gold-light);font-weight:700;">Aldersgate College, Inc.</span>
+        </div>
+        <p>Creating a Brighter Future since 1965. Educating the whole person — mind, heart, and hands — for service in the global community.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About ACI</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Colleges</h4>
+        <ul>
+          <li><a href="#">CASEIT</a></li>
+          <li><a href="#">CBMA</a></li>
+          <li><a href="#">Engineering</a></li>
+          <li><a href="#">Theology</a></li>
+          <li><a href="#">Graduate School</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Portal</h4>
+        <ul>
+          <li><a href="#">Student Portal</a></li>
+          <li><a href="#">Enrollment</a></li>
+          <li><a href="#">Library</a></li>
+          <li><a href="#">Research</a></li>
+          <li><a href="#">Alumni</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Aldersgate College, Inc. All Rights Reserved.</p>
+      <p>aldersgate.edu.ph · Solano, Nueva Vizcaya, Philippines</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ====== CHAT LAUNCHER ====== -->
+<div id="chat-launcher">
+  <!-- Greeting bubble -->
+  <div id="greeting-bubble">
+    <button class="close-greeting" onclick="dismissGreeting()">×</button>
+    <p>Roar! 🦁 Hi there! I'm <span class="greeting-name">Alder</span>, ACI's lion mascot.<br/>Need help? I'm here for you!</p>
+  </div>
+
+  <!-- Lion bubble button -->
+  <button id="chat-bubble-btn" onclick="toggleChat()" title="Chat with Alder">
+    <!-- Animated Lion SVG -->
+    <svg class="lion-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Mane -->
+      <circle cx="24" cy="26" r="14" fill="#c9a227"/>
+      <!-- Mane detail -->
+      <circle cx="24" cy="26" r="11" fill="#e8bf52"/>
+      <!-- Face -->
+      <circle cx="24" cy="25" r="9" fill="#f5c842"/>
+      <!-- Ears -->
+      <g class="lion-ear-left">
+        <polygon points="13,17 9,10 17,14" fill="#c9a227"/>
+        <polygon points="13,17 10,12 16,14" fill="#f5a830"/>
+      </g>
+      <polygon points="35,17 39,10 31,14" fill="#c9a227"/>
+      <polygon points="35,17 38,12 32,14" fill="#f5a830"/>
+      <!-- Eyes -->
+      <ellipse class="lion-eye" cx="20" cy="23" rx="2.5" ry="2.5" fill="#3a1f00"/>
+      <ellipse class="lion-eye" cx="28" cy="23" rx="2.5" ry="2.5" fill="#3a1f00"/>
+      <circle cx="21" cy="22" r="0.8" fill="white"/>
+      <circle cx="29" cy="22" r="0.8" fill="white"/>
+      <!-- Nose -->
+      <ellipse cx="24" cy="27" rx="2" ry="1.4" fill="#c05a1e"/>
+      <!-- Mouth -->
+      <path d="M22 28.5 Q24 30.5 26 28.5" stroke="#8b3a0f" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+      <!-- Whiskers -->
+      <line x1="15" y1="26" x2="21" y2="27" stroke="white" stroke-width="0.6" opacity="0.8"/>
+      <line x1="15" y1="28" x2="21" y2="28.5" stroke="white" stroke-width="0.6" opacity="0.8"/>
+      <line x1="27" y1="27" x2="33" y2="26" stroke="white" stroke-width="0.6" opacity="0.8"/>
+      <line x1="27" y1="28.5" x2="33" y2="28" stroke="white" stroke-width="0.6" opacity="0.8"/>
+      <!-- Tail -->
+      <g class="lion-tail">
+        <path d="M34 38 Q42 36 40 42 Q38 46 36 44" stroke="#c9a227" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="37" cy="44" r="3" fill="#c9a227"/>
+      </g>
+    </svg>
+  </button>
+</div>
+
+<!-- ====== CHAT WINDOW ====== -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🦁</div>
+    <div class="chat-header-info">
+      <h4>Alder — ACI Assistant</h4>
+      <span>🟢 Online · Powered by AI</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">
+      <div class="msg-bubble">Roar! 🦁 Hello, future Aldersgarian! I'm <strong>Alder</strong>, Aldersgate College's lion mascot and your AI assistant. How can I help you today?</div>
+      <span class="msg-time">Just now</span>
+    </div>
+    <div class="msg bot">
+      <div class="msg-bubble">You can ask me about <strong>programs, enrollment, tuition, campus life</strong>, or anything about ACI! 🎓</div>
+      <span class="msg-time">Just now</span>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Ask Alder anything..." onkeydown="if(event.key==='Enter')sendMessage()" />
+    <button id="chat-send" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  /* ===== GREETING DISMISS ===== */
+  let greetingDismissed = false;
+
+  function dismissGreeting() {
+    const g = document.getElementById('greeting-bubble');
+    g.style.opacity = '0';
+    g.style.transform = 'scale(0.8)';
+    g.style.transition = 'all 0.25s';
+    setTimeout(() => { g.style.display = 'none'; }, 250);
+    greetingDismissed = true;
+  }
+
+  // Auto-dismiss greeting after 8 seconds
+  setTimeout(() => {
+    if (!greetingDismissed) dismissGreeting();
+  }, 8000);
+
+  /* ===== CHAT TOGGLE ===== */
+  let chatOpen = false;
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chat-window');
+    if (chatOpen) {
+      win.classList.add('open');
+      dismissGreeting();
+      document.getElementById('chat-input').focus();
+    } else {
+      win.classList.remove('open');
+    }
+  }
+
+  /* ===== SEND MESSAGE ===== */
+  // Replace this URL with your actual n8n RAG webhook endpoint
+  const N8N_WEBHOOK_URL = 'https://YOUR_N8N_WEBHOOK_URL/webhook/alder-chat';
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    appendMessage('user', text);
+    showTyping();
+
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          sessionId: getSessionId(),
+          context: 'aldersgate_college'
+        })
+      });
+
+      const data = await response.json();
+      hideTyping();
+
+      // Adjust the key below to match your n8n response structure
+      const reply = data.reply || data.output || data.text || data.message || "I'm sorry, I couldn't get a response right now. Please try again or contact ACI directly at +63 078 326-8009.";
+      appendMessage('bot', reply);
+
+    } catch (err) {
+      hideTyping();
+      appendMessage('bot', "Oops! 🦁 It seems I'm having trouble connecting right now. Please contact ACI directly at <strong>+63 078 326-8009</strong> or email <strong>info@aldersgate.edu.ph</strong>.");
+    }
+  }
+
+  function appendMessage(role, text) {
+    const container = document.getElementById('chat-messages');
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `
+      <div class="msg-bubble">${text}</div>
+      <span class="msg-time">${time}</span>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  let typingEl = null;
+
+  function showTyping() {
+    const container = document.getElementById('chat-messages');
+    typingEl = document.createElement('div');
+    typingEl.className = 'msg bot';
+    typingEl.id = 'typing-indicator';
+    typingEl.innerHTML = `
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    `;
+    container.appendChild(typingEl);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  function getSessionId() {
+    let sid = sessionStorage.getItem('alder_session');
+    if (!sid) {
+      sid = 'alder_' + Math.random().toString(36).substr(2, 9);
+      sessionStorage.setItem('alder_session', sid);
+    }
+    return sid;
+  }
+</script>
+</body>
+</html>
