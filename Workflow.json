@@ -1,0 +1,717 @@
+{
+  "name": "AC Student Assistance",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "file_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "file_name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        256
+      ],
+      "id": "f8a6d85b-07c2-42a2-80c1-e5a3941f4d68",
+      "name": "Set File Info (Updated)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "file_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "file_name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        32
+      ],
+      "id": "c10242eb-3548-4385-aecd-75f7f563dc0c",
+      "name": "Set File Info (New)"
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "n8n-gdrive-479806",
+          "mode": "list",
+          "cachedResultName": "n8n Gdrive"
+        },
+        "modelName": "gemini-embedding-001"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleVertex",
+      "typeVersion": 1,
+      "position": [
+        464,
+        368
+      ],
+      "id": "837ce06d-f846-45c5-be96-6dae07d04e05",
+      "name": "Embeddings Google Vertex",
+      "credentials": {
+        "googleApi": {
+          "id": "AjMpdPp3uDevMmsz",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "file_id",
+                "value": "={{ $json.file_id ?? 'unknown' }}"
+              },
+              {
+                "name": "file_name",
+                "value": "={{ $json.file_name ?? 'unknown' }}"
+              },
+              {
+                "name": "ingested_at",
+                "value": "={{ new Date().toISOString() }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        592,
+        368
+      ],
+      "id": "f6579a0f-501a-4e2d-9bcb-2cff88a1add2",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        144
+      ],
+      "id": "a4fa38ca-c020-4260-9f9b-1ed2d6964334",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "c2vDbTNURspuzI0k",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the files (Binary) from the Download node\nconst binaryItems = $input.all();\n\nlet metadataItems = [];\n\n// 2. SMART LOOKUP: Check which path was active (New or Updated)\ntry {\n  // Try to get metadata from the \"New File\" path\n  metadataItems = $(\"Set File Info (New)\").all();\n} catch (error) {\n  // If that node didn't run, try the \"Updated File\" path\n  try {\n    metadataItems = $(\"Set File Info (Updated)\").all();\n  } catch (err) {\n    // If neither ran (rare), leave it empty\n    metadataItems = [];\n  }\n}\n\nconst results = [];\n\n// 3. Merge them back together\nfor (let i = 0; i < binaryItems.length; i++) {\n  const binaryItem = binaryItems[i];\n  // Ensure we have matching metadata for this item\n  const meta = metadataItems[i] ? metadataItems[i].json : {};\n\n  results.push({\n    ...binaryItem,\n    json: {\n      ...binaryItem.json,\n      // Use the found metadata, or fallback to 'unknown' if something went wrong\n      file_id: meta.file_id || 'unknown',\n      file_name: meta.file_name || 'unknown'\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        144
+      ],
+      "id": "bc91d95e-bbf3-4361-b0c7-ea1464c27d9d",
+      "name": "Merge for Embedding"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "documents",
+        "filterType": "string",
+        "filterString": "=metadata->>file_id=eq.{{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        480
+      ],
+      "id": "3063840a-7940-4680-86de-f813c5f55b80",
+      "name": "Delete Archived Embeddings",
+      "credentials": {
+        "supabaseApi": {
+          "id": "c2vDbTNURspuzI0k",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('On File Updated').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        0,
+        256
+      ],
+      "id": "fb7fd7ec-bd4b-43ff-aff7-e0de4eb67c9c",
+      "name": "Download Updated File",
+      "executeOnce": true,
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "O8UOPNIhvsJgIEC0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "documents",
+        "filterType": "string",
+        "filterString": "=metadata->>file_id=eq.{{ $json.file_id }}"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        256
+      ],
+      "id": "3dae3d56-75ff-43d4-84c7-26793004728f",
+      "name": "Delete Old Embeddings",
+      "credentials": {
+        "supabaseApi": {
+          "id": "c2vDbTNURspuzI0k",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        32
+      ],
+      "id": "c6aff547-aaaf-4efb-a20e-e3b8828560d9",
+      "name": "Download New File",
+      "executeOnce": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "O8UOPNIhvsJgIEC0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1ha_5zjE4kqyx8CaDUgSKNvmDpG5FbVPd",
+          "mode": "list",
+          "cachedResultName": "Archive",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1ha_5zjE4kqyx8CaDUgSKNvmDpG5FbVPd"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        480
+      ],
+      "id": "92d1b234-3583-4084-86af-b39e958ea012",
+      "name": "On File Archived",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "O8UOPNIhvsJgIEC0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1lz3yq5cnEi14QEvYj69UUv2MTy8fdXdj",
+          "mode": "list",
+          "cachedResultName": "Knowledge Base Document",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1lz3yq5cnEi14QEvYj69UUv2MTy8fdXdj"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        256
+      ],
+      "id": "69b060f0-52f4-44d6-bb08-bb054b2c328a",
+      "name": "On File Updated",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "O8UOPNIhvsJgIEC0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1lz3yq5cnEi14QEvYj69UUv2MTy8fdXdj",
+          "mode": "list",
+          "cachedResultName": "Knowledge Base Document",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1lz3yq5cnEi14QEvYj69UUv2MTy8fdXdj"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        32
+      ],
+      "id": "82847c8e-1acd-463c-9d54-3226de8139d8",
+      "name": "On File Created",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "O8UOPNIhvsJgIEC0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Call this tool to retrieve official information about Aldersgate College. Use it to find details on enrollment requirements, tuition fees, academic grading systems, school calendar, office hours, and student portal procedures. Always search this tool first for school-related inquiries.",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -992,
+        48
+      ],
+      "id": "109a914f-7fe7-4b9f-a6ea-accd2d81b98a",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "c2vDbTNURspuzI0k",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ef5faa34-784d-4154-aa5c-d1ec886830d4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -1744,
+        -192
+      ],
+      "webhookId": "chat"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "chatInput",
+              "stringValue": "={{ $json.body.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d1461d16-b1cb-45f8-84e8-2a1220cc4cc7",
+      "name": "Map Message to Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        -1520,
+        -192
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "## Role\nYou are the friendly and professional AI Support Assistant for Aldersgate College.\n\n## Your Goal\nAssist students and parents by retrieving accurate information using your 'Knowledge Base' tool.\n\n## Rules for Answering\n1. **ALWAYS Use the Tool:** For any question about school policies, fees, dates, or requirements, you must use the 'Knowledge Base' tool to find the answer. Do not guess.\n2. **No Hallucinations:** If the tool does not return relevant information, do not make up an answer. Simply state: \"I apologize, I couldn't find that specific information in my current records. Please visit the Registrar's office.\"\n3. **Tone:** Warm, academic, and concise.\n4. **Off-Topic:** If the user asks about non-school topics, politely bring the conversation back to Aldersgate College."
+        }
+      },
+      "id": "596788f7-dd18-473e-b677-137c0d164bf3",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -1232,
+        -192
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "dff3cdf3-1223-415e-948a-4b1514032ab1",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        32
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "B2W7Yl1NsC3PKFBN",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.headers['x-forwarded-for'] }}",
+        "contextWindowLength": 10
+      },
+      "id": "e8b6ea61-52cb-4d74-9461-7abb6e389e46",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1168,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"output\": $json.output } }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST,OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type, ngrok-skip-browser-warning"
+              }
+            ]
+          }
+        }
+      },
+      "id": "b1bfa9ef-05e6-476e-9b32-9bf96782982d",
+      "name": "Respond to Website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        -192
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Set File Info (Updated)": {
+      "main": [
+        [
+          {
+            "node": "Delete Old Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set File Info (New)": {
+      "main": [
+        [
+          {
+            "node": "Download New File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Vertex": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge for Embedding": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Updated File": {
+      "main": [
+        [
+          {
+            "node": "Merge for Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Old Embeddings": {
+      "main": [
+        [
+          {
+            "node": "Download Updated File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download New File": {
+      "main": [
+        [
+          {
+            "node": "Merge for Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On File Archived": {
+      "main": [
+        [
+          {
+            "node": "Delete Archived Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On File Updated": {
+      "main": [
+        [
+          {
+            "node": "Set File Info (Updated)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On File Created": {
+      "main": [
+        [
+          {
+            "node": "Set File Info (New)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Map Message to Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Message to Input": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "5cc29899-6020-46b7-97ba-140c04f3b502",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "036adb6c6e26c10af922b400610e35f20c821a9627c9acc0729f8b9551a64ee5"
+  },
+  "id": "6VV_GfT3NQKh6FKAh_859",
+  "tags": []
+}
